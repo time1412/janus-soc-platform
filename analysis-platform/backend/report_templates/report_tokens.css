@@ -1,0 +1,200 @@
+/* ============================================================
+   report_tokens.css — SOC 이벤트 분석 보고서 스타일 토큰
+   대표색 = 플랫폼 네이비(#1F4E79)/블루(#2E75B6). 위험도(적/주/녹)는 의미색 유지.
+   ============================================================ */
+:root {
+  --font-sans: "Malgun Gothic", "Noto Sans KR", "맑은 고딕", sans-serif;
+  --font-mono: "Consolas", "D2Coding", "Courier New", monospace;
+
+  /* 플랫폼 대표색(브랜드) */
+  --brand-navy:  #1f4e79;
+  --brand-blue:  #2e75b6;
+  --brand-sky:   #eaf1fb;
+  --brand-line:  #cde0f1;
+
+  /* 배경 */
+  --color-background-primary:   #ffffff;
+  --color-background-secondary: #f3f7fc;
+  --color-background-danger:    #fdecea;
+  --color-background-warning:   #fdf3da;
+  --color-background-success:   #e6f4ea;
+  --color-background-info:      #eaf1fb;
+
+  /* 텍스트 */
+  --color-text-primary:   #1c2c3a;
+  --color-text-secondary: #5a7793;
+  --color-text-tertiary:  #93a6b8;
+  --color-text-danger:    #c0392b;
+  --color-text-warning:   #b7770d;
+  --color-text-success:   #1e7e44;
+  --color-text-info:      #1f5e9c;
+
+  /* 보더 */
+  --color-border-secondary: #d2e0ee;
+  --color-border-tertiary:  #e4edf5;
+  --color-border-danger:    #f0b8b0;
+
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+}
+
+@page { size: A4; margin: 14mm 14mm 18mm 14mm; }
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0; font-family: var(--font-sans);
+  color: var(--color-text-primary); font-size: 13px;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.report { max-width: 700px; margin: 0 auto; }
+.mono   { font-family: var(--font-mono); }
+.t-danger { color: var(--color-text-danger); }
+.t-dim    { color: var(--color-text-tertiary); }
+
+/* ── 브랜드 헤더 바(네이비) ─────────────────────────────── */
+.brand {
+  background: var(--brand-navy); color: #fff;
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+  padding: 13px 18px; display: flex; justify-content: space-between; align-items: center;
+}
+.brand .b-l  { font-size: 11px; color: #aecbe8; letter-spacing: 0.4px; }
+.brand .b-t  { font-size: 17px; font-weight: 700; margin-top: 1px; }
+.brand .b-r  { font-size: 10.5px; color: #aecbe8; text-align: right; line-height: 1.5; }
+.brand-rule  { height: 3px; background: var(--brand-blue); margin-bottom: 14px;
+               border-radius: 0 0 2px 2px; }
+
+/* ── 위험도 배너 ────────────────────────────────────────── */
+.banner {
+  display: flex; align-items: stretch; overflow: hidden;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-lg); margin-bottom: 14px;
+}
+.banner-sev { padding: 14px 18px; min-width: 96px;
+  display: flex; flex-direction: column; justify-content: center; }
+.banner-sev .sev-label { font-size: 11px; letter-spacing: 0.5px; }
+.banner-sev .sev-value { font-size: 22px; font-weight: 700; line-height: 1.1; }
+.banner-main { flex: 1; padding: 12px 18px; background: var(--color-background-primary); }
+.banner-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; color: var(--brand-navy); }
+.banner-sub   { font-size: 12.5px; color: var(--color-text-secondary); }
+.banner-meta { padding: 12px 16px; background: var(--brand-sky);
+  border-left: 1px solid var(--color-border-secondary);
+  display: flex; flex-direction: column; justify-content: center; text-align: right; }
+.banner-meta .m-rule { font-size: 11px; color: var(--brand-blue); font-weight: 600; }
+.banner-meta .m-time { font-size: 12.5px; color: var(--color-text-secondary); }
+
+.severity-high { background: var(--color-background-danger);  color: var(--color-text-danger); }
+.severity-med  { background: var(--color-background-warning); color: var(--color-text-warning); }
+.severity-low  { background: var(--color-background-success); color: var(--color-text-success); }
+
+/* ── 3분할 정보 그리드 ──────────────────────────────────── */
+.grid3 { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.card { background: var(--color-background-secondary);
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-md); padding: 11px 14px; }
+.card-label { font-size: 11.5px; color: var(--color-text-secondary); margin-bottom: 6px; }
+.card-flow  { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.card-flow .arrow { color: var(--brand-blue); font-size: 14px; }
+.card-big   { font-size: 20px; font-weight: 700; color: var(--brand-navy); }
+.card-big .unit { font-size: 13px; color: var(--color-text-secondary); font-weight: 400; }
+.card-path  { font-size: 12.5px; font-family: var(--font-mono); word-break: break-all; }
+
+/* ── 킬체인 ─────────────────────────────────────────────── */
+.kc-head, .sec-head {
+  font-size: 13px; font-weight: 700; color: var(--brand-navy);
+  margin: 0 0 8px; padding-left: 9px; border-left: 3px solid var(--brand-blue);
+  display: flex; align-items: center; gap: 6px;
+}
+.killchain { display: flex; align-items: stretch; gap: 6px; margin-bottom: 16px; }
+.kc-stage { flex: 1; text-align: center; padding: 9px 6px;
+  background: var(--color-background-primary);
+  border: 1px solid var(--color-border-secondary); border-radius: var(--border-radius-md); }
+.kc-stage .kc-tid  { font-size: 10.5px; color: var(--color-text-tertiary); font-family: var(--font-mono); }
+.kc-stage .kc-name { font-size: 12px; margin-top: 2px; color: var(--color-text-primary); }
+.kc-stage.active { background: var(--color-background-danger); border-color: var(--color-border-danger); }
+.kc-stage.active .kc-tid, .kc-stage.active .kc-name { color: var(--color-text-danger); font-weight: 700; }
+.kc-sep { align-self: center; font-size: 14px; color: var(--brand-blue); flex: 0 0 auto; }
+
+/* ── 바로 할 일(대응) ──────────────────────────────────── */
+.actions { background: var(--color-background-primary);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-lg); padding: 13px 16px; margin-bottom: 16px; }
+.actions-head { font-size: 13px; font-weight: 700; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 6px; color: var(--brand-navy); }
+.actions-head svg { color: var(--color-text-danger); }
+.action-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+.action-row:last-child { margin-bottom: 0; }
+.action-row .txt { font-size: 13px; }
+.prio { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: var(--border-radius-md);
+  min-width: 28px; text-align: center; flex: 0 0 auto; }
+.prio-p1 { background: var(--color-background-danger);    color: var(--color-text-danger); }
+.prio-p2 { background: var(--color-background-warning);   color: var(--color-text-warning); }
+.prio-p3 { background: var(--brand-sky);                  color: var(--brand-blue); }
+.prio-p4 { background: var(--color-background-secondary); color: var(--color-text-tertiary); }
+
+/* ── 연계 배너 ──────────────────────────────────────────── */
+.related { display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+  background: var(--color-background-info); border: 1px solid var(--brand-line);
+  border-radius: var(--border-radius-md); margin-bottom: 16px; }
+.related svg { color: var(--color-text-info); flex: 0 0 auto; }
+.related .txt { font-size: 12px; color: var(--color-text-info); }
+
+/* ── 상세 섹션 구분선 ──────────────────────────────────── */
+.divider { display: flex; align-items: center; gap: 10px; margin: 4px 0 14px; }
+.divider .line { flex: 1; height: 1px; background: var(--color-border-secondary); }
+.divider .lbl  { font-size: 11px; font-weight: 700; color: var(--brand-blue); letter-spacing: 1px; }
+
+.section { margin-bottom: 16px; }
+
+/* 탐지 상세 KV 표 */
+.kv-grid { display: grid; grid-template-columns: 92px 1fr 92px 1fr; gap: 1px;
+  background: var(--color-border-tertiary); border: 1px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-md); overflow: hidden; }
+.kv-grid .k { background: var(--brand-sky); color: var(--color-text-secondary);
+  font-size: 11px; font-weight: 600; padding: 7px 10px; }
+.kv-grid .v { background: #fff; font-size: 12.5px; padding: 7px 10px; word-break: break-all; }
+.kv-grid .v.full { grid-column: 2 / 5; }
+
+/* 페이로드/근거 코드 박스 */
+.codebox { background: #f5f8fb; border: 1px solid var(--color-border-secondary);
+  border-left: 3px solid var(--brand-blue); border-radius: var(--border-radius-md);
+  padding: 10px 12px; font-family: var(--font-mono); font-size: 11.5px;
+  color: #233; white-space: pre-wrap; word-break: break-all; line-height: 1.55; }
+.codebox.danger { border-left-color: var(--color-text-danger); }
+
+/* 판정 근거 박스 */
+.note { background: var(--brand-sky); border: 1px solid var(--brand-line);
+  border-radius: var(--border-radius-md); padding: 10px 13px;
+  font-size: 12.5px; line-height: 1.65; color: var(--color-text-primary); }
+
+/* 킬체인 단계 상세 표 */
+.dtable { width: 100%; border-collapse: collapse; font-size: 12px; }
+.dtable th { background: var(--brand-navy); color: #fff; font-weight: 600;
+  padding: 6px 10px; text-align: left; }
+.dtable td { padding: 6px 10px; border-bottom: 1px solid var(--color-border-tertiary); }
+.dtable tr:nth-child(even) td { background: var(--color-background-secondary); }
+.dtable .tid { font-family: var(--font-mono); color: var(--brand-blue); }
+
+/* AI 종합 분석 프로즈 */
+.prose { font-size: 12.5px; line-height: 1.7; color: var(--color-text-primary); }
+.prose h3 { font-size: 13px; font-weight: 700; color: var(--brand-navy);
+  margin: 12px 0 5px; padding-left: 8px; border-left: 3px solid var(--brand-blue); }
+.prose b, .prose strong { color: var(--brand-navy); }
+.prose ul { margin: 4px 0 8px; padding-left: 18px; }
+.prose li { margin-bottom: 3px; }
+.prose p { margin: 4px 0 8px; }
+.prose code { font-family: var(--font-mono); color: var(--color-text-danger);
+  background: #f5f8fb; padding: 1px 4px; border-radius: 4px; font-size: 11.5px; }
+
+/* ── 페이지 나눔 제어 (표·박스가 페이지 경계에서 잘리지 않게) ── */
+/* 제목은 바로 아래 내용과 붙어 다음 페이지로 함께 이동(고아 제목 방지) */
+.brand, .sec-head, .kc-head, .actions-head, .divider, .prose h3 {
+  break-after: avoid; page-break-after: avoid;
+}
+/* 카드·표·박스는 내부에서 페이지가 잘리지 않게 통째로 유지 */
+.banner, .grid3, .killchain, .actions, .related,
+.kv-grid, .codebox, .note, .dtable {
+  break-inside: avoid; page-break-inside: avoid;
+}
+/* 행·항목 단위로도 잘리지 않게 */
+.dtable tr, .action-row, .kc-stage, .card, .prose li, .prose p {
+  break-inside: avoid; page-break-inside: avoid;
+}

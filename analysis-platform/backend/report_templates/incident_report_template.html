@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>{{ title }}</title>
+<style>{{ tokens_css | safe }}</style>
+</head>
+<body>
+<div class="report">
+
+  <!-- 브랜드 헤더 -->
+  <div class="brand">
+    <div>
+      <div class="b-l">SOC 분석 플랫폼</div>
+      <div class="b-t">{{ title }}</div>
+    </div>
+    <div class="b-r">{{ doc_no }}<br>생성 {{ generated_at }}</div>
+  </div>
+  <div class="brand-rule"></div>
+
+  <!-- ───── 요약(한눈에) ───── -->
+  <div class="banner">
+    <div class="banner-sev {{ severity_class }}">
+      <span class="sev-label">위험도</span>
+      <span class="sev-value">{{ severity_text }}</span>
+    </div>
+    <div class="banner-main">
+      <div class="banner-title">{{ banner_title }}</div>
+      <div class="banner-sub">{{ banner_sub }}</div>
+    </div>
+    <div class="banner-meta">
+      <span class="m-rule">{{ rule_id }}</span>
+      <span class="m-time">{{ when }}</span>
+    </div>
+  </div>
+
+  <div class="grid3">
+    <div class="card">
+      <div class="card-label">공격 플로우</div>
+      <div class="card-flow">
+        <span class="mono t-danger" style="font-weight:700;">{{ flow_src }}</span>
+        <span class="arrow">&#8594;</span>
+        <span class="mono">{{ flow_dst }}</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">반복 탐지</div>
+      <div class="card-big">{{ repeat_count }}<span class="unit">회{% if repeat_window %} / {{ repeat_window }}{% endif %}</span></div>
+    </div>
+    <div class="card">
+      <div class="card-label">대상 경로</div>
+      <div class="card-path">{{ target_path }}{% if target_label %} <span class="t-dim">{{ target_label }}</span>{% endif %}</div>
+    </div>
+  </div>
+
+  {% if killchain %}
+  <div class="kc-head">킬체인 단계</div>
+  <div class="killchain">
+    {% for s in killchain %}
+    <div class="kc-stage{% if s.active %} active{% endif %}">
+      <div class="kc-tid">{{ s.tid }}</div>
+      <div class="kc-name">{{ s.name }}</div>
+    </div>
+    {% if not loop.last %}<span class="kc-sep">&#8250;</span>{% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if actions %}
+  <div class="actions">
+    <div class="actions-head">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3v7h6l-8 11v-7H5l8-11z"/></svg>
+      바로 할 일
+    </div>
+    {% for a in actions %}
+    <div class="action-row">
+      <span class="prio {{ a.prio_class }}">{{ a.prio_label }}</span>
+      <span class="txt">{{ a.text }}</span>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% for r in related %}
+  <div class="related">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 15l6-6"/><path d="M11 6l.5-.5a3.5 3.5 0 0 1 5 5L15 12"/><path d="M13 18l-.5.5a3.5 3.5 0 0 1-5-5L9 12"/></svg>
+    <span class="txt">{{ r | safe }}</span>
+  </div>
+  {% endfor %}
+
+  <!-- ───── 상세 ───── -->
+  <div class="divider"><span class="lbl">상세 분석</span><span class="line"></span></div>
+
+  <!-- 탐지 상세 -->
+  <div class="section">
+    <div class="sec-head">탐지 상세</div>
+    <div class="kv-grid">
+      {% for d in detail_rows %}<div class="k">{{ d.k }}</div><div class="v">{{ d.v | safe }}</div>{% endfor %}
+    </div>
+  </div>
+
+  <!-- 공격 페이로드 -->
+  {% if payload %}
+  <div class="section">
+    <div class="sec-head">공격 페이로드</div>
+    <div class="codebox danger">{{ payload }}</div>
+  </div>
+  {% endif %}
+
+  <!-- 판정 근거 -->
+  {% if reasoning %}
+  <div class="section">
+    <div class="sec-head">AI 판정 근거</div>
+    <div class="note">{{ reasoning }}</div>
+  </div>
+  {% endif %}
+
+  <!-- 킬체인 단계 상세 -->
+  {% if killchain_detail %}
+  <div class="section">
+    <div class="sec-head">킬체인 단계 상세 (MITRE ATT&amp;CK)</div>
+    <table class="dtable">
+      <thead><tr><th style="width:34px;">#</th><th style="width:78px;">기법</th><th>단계</th><th style="width:110px;">전술</th></tr></thead>
+      <tbody>
+        {% for s in killchain_detail %}
+        <tr><td>{{ loop.index }}</td><td class="tid">{{ s.tid }}</td><td>{{ s.name }}</td><td>{{ s.tactic }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+
+  <!-- AI 종합 분석 -->
+  {% if analysis_html %}
+  <div class="section">
+    <div class="sec-head">AI 종합 분석</div>
+    <div class="prose">{{ analysis_html | safe }}</div>
+  </div>
+  {% endif %}
+
+  <!-- 증적 로그(근거) -->
+  {% if evidence %}
+  <div class="section">
+    <div class="sec-head">기여 이벤트(증적) — 상위 {{ evidence|length }}건</div>
+    <div class="codebox">{% for e in evidence %}{{ e }}
+{% endfor %}</div>
+  </div>
+  {% endif %}
+
+</div>
+</body>
+</html>

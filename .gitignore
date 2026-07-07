@@ -1,0 +1,43 @@
+# ===== Secrets (절대 커밋 금지) =====
+.env
+.env.local
+.env.*.local
+*.env
+!.env.example
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+# ===== Node / Frontend =====
+node_modules/
+build/
+dist/
+.next/
+npm-debug.log*
+
+# ===== Runtime data / caches (DB·업로드·리포트) =====
+storage/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+comm.db
+pdf_reports/
+mail_staging/
+uploads/
+*.log
+
+# ===== 임시/작업 스크립트 =====
+_*.py
+
+# ===== OS / Editor =====
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
